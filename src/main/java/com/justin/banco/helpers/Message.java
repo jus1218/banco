@@ -1,5 +1,5 @@
 package com.justin.banco.helpers;
-
+// Version 1
 public class Message {
     // * MENSAJES GENERICOS
     public static final String SUCCESS = "Muy bien acción procesada correctamente.";
