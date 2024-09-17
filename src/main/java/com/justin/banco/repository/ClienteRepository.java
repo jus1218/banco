@@ -4,21 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+ 
 import com.justin.banco.dto.cliente.*;
-import com.justin.banco.helpers.Result;
+import com.justin.banco.helpers.Result; 
 import com.justin.banco.models.Cliente;
+import com.justin.banco.service.QueryManager;
 
 @Repository
 public class ClienteRepository
@@ -26,43 +21,33 @@ public class ClienteRepository
 
     @PersistenceContext
     private EntityManager entityManager;
+
     @Autowired
-    private ObjectMapper objectMapper;
+    private QueryManager queryManager;
 
-    private Integer resultCode = 0;
+    @Override
+    public Result<ClienteCreateDTO> create(ClienteCreateDTO cliente) {
 
-    private void initializeParameterCreate(StoredProcedureQuery query, ClienteCreateDTO banco) {
-        query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(3, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(4, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(5, Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(6, Integer.class, ParameterMode.OUT);
+        var query = entityManager.createStoredProcedureQuery("SP_C_Client");
 
-        // query.setParameter(1, banco.codigoBanco());
-        // query.setParameter(2, banco.nombre());
-        // query.setParameter(3, banco.direccionExacta());
-        // query.setParameter(4, banco.codigoMoneda());
-        // query.setParameter(5, banco.codigoDistrito());
-        query.setParameter(6, resultCode);
+        queryManager.executeCreateOrUpdateProcedure(query, cliente, Cliente.class);
+
+        return Result.get(cliente, queryManager.message, queryManager.resultCode);
     }
 
     @Override
-    public Result<ClienteCreateDTO> create(ClienteCreateDTO entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+    public Result<ClienteUpdateDTO> update(ClienteUpdateDTO entity) {
+        var query = entityManager.createStoredProcedureQuery("SP_U_Client");
+        queryManager.executeCreateOrUpdateProcedure(query,entity,Cliente.class);
+
+        return Result.get(entity, queryManager.message, queryManager.resultCode);
     }
 
     @Override
-    public Result<ClienteUpdateDTO> update(Integer index, ClienteUpdateDTO entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public Result<String> delete(Integer item) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    public Result<String> delete(Integer id) {
+        var query = entityManager.createStoredProcedureQuery("SP_D_ClientByCode");
+        queryManager.executeDeleteProcedure(id, query, Cliente.class);
+        return Result.get(null, queryManager.message, queryManager.resultCode);
     }
 
     @Override
@@ -72,47 +57,27 @@ public class ClienteRepository
     }
 
     @Override
-    public List<Map<String, Object>> getBanksInJson(ClientPaginationDTO clientePaginacioDTO)
-            throws JsonMappingException, JsonProcessingException {
+    public List<Map<String, Object>> getBanksInJson(ClientPaginationDTO clientePaginacioDTO) {
 
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("SP_G_ClientInJson");
-
-        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(3, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(4, Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(5, Integer.class, ParameterMode.IN);
-
-        query.setParameter(1, clientePaginacioDTO.offset());
-        query.setParameter(2, clientePaginacioDTO.limit());
-        query.setParameter(3, clientePaginacioDTO.nombre());
-        query.setParameter(4, clientePaginacioDTO.distrito());
-        query.setParameter(5, clientePaginacioDTO.cedula());
-
-        query.execute();
-        var results = query.getResultList();
-
-        if (results.isEmpty()) {
-            return objectMapper.readValue("[]", new TypeReference<List<Map<String, Object>>>() {
-            });
-        }
-
-        String jsonResult = (String) results.get(0);
-
-        // Procesar el JSON
-        JsonNode jsonNode = objectMapper.readTree(jsonResult);
-        // Convertir JsonNode a List<Map<String, Object>>
-        List<Map<String, Object>> clientes = objectMapper.readValue(jsonNode.toString(),
-                new TypeReference<List<Map<String, Object>>>() {
-                });
-
-        return clientes;
+        return queryManager.executeProcedureAndReturnJson(query, clientePaginacioDTO, Cliente.class);
     }
 
     @Override
-    public Result<List<Cliente>> getByName(Integer index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByName'");
+    public Result<List<Cliente>> getByIdInList(Integer index) {
+
+        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+    }
+
+    @Override
+    public Result<Cliente> getById(Integer index) {
+        var query = entityManager.createStoredProcedureQuery("SP_F_ClientByCode", Cliente.class);
+
+        var clientes = queryManager.executeProcedureAndGetResults(index, query, Cliente.class);
+
+        return Result.get(
+                clientes.isEmpty() ? null : clientes.get(0),
+                queryManager.message, queryManager.resultCode);
     }
 
 }

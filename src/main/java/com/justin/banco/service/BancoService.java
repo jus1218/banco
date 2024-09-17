@@ -21,7 +21,7 @@ public class BancoService implements CommonService<Banco, BancoCreateDTO, BancoU
     private @Autowired BancoRepository bancoRepository;
 
     @Override
-    public Result<BancoCreateDTO> create(BancoCreateDTO banco){
+    public Result<BancoCreateDTO> create(BancoCreateDTO banco)  {
         return bancoRepository.create(banco);
     }
 
@@ -36,8 +36,8 @@ public class BancoService implements CommonService<Banco, BancoCreateDTO, BancoU
     }
 
     @Override
-    public Result<List<Banco>> getByName(String index) {
-        return this.bancoRepository.getByName(index);
+    public Result<List<Banco>> getByIdInList(String index) {
+        return this.bancoRepository.getByIdInList(index);
 
     }
 
@@ -47,8 +47,14 @@ public class BancoService implements CommonService<Banco, BancoCreateDTO, BancoU
     }
 
     @Override
-    public Result<BancoUpdateDTO> update(String codigoBanco, BancoUpdateDTO banco)   {
-        return this.bancoRepository.update(codigoBanco, banco);
+    public Result<BancoUpdateDTO> update( BancoUpdateDTO banco)   {
+        return this.bancoRepository.update( banco);
+    }
+
+    @Override
+    public Result<Banco> getById(String index) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getById'");
     }
 
 }

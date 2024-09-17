@@ -1,14 +1,19 @@
 package com.justin.banco.advice;
 
+import org.hibernate.sql.results.NoMoreOutputsException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
-import org.springframework.validation.FieldError;
+import org.springframework.http.ProblemDetail; 
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.validation.FieldError; 
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +36,7 @@ public class AppRestControllerAdvice {
         return problemDetail;
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class,HttpMessageNotReadableException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail handlerMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 
@@ -56,4 +61,26 @@ public class AppRestControllerAdvice {
         return problemDetail;
     }
 
+    // QueryTimeoutException - if the query execution exceeds the query timeout
+    // value set and only the statement is rolled back
+    // PersistenceException
+
+    @ExceptionHandler({ NoMoreOutputsException.class, JpaSystemException.class })
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ProblemDetail handlerNoMoreOutputsException(Exception ex) {
+        var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+
+        return problemDetail;
+
+    }
+
+
+    @ExceptionHandler(ResponseStatusException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ProblemDetail handleResponseStatusException(ResponseStatusException ex) {
+        var problemDetail = ProblemDetail.forStatusAndDetail(ex.getStatusCode(), ex.getReason());
+
+        return problemDetail;
+
+    }
 }

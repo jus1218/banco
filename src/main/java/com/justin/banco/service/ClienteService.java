@@ -23,20 +23,17 @@ public class ClienteService
 
     @Override
     public Result<ClienteCreateDTO> create(ClienteCreateDTO entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        return this.clienteRepository.create(entity);
     }
 
     @Override
-    public Result<ClienteUpdateDTO> update(Integer index, ClienteUpdateDTO entity) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public Result<ClienteUpdateDTO> update( ClienteUpdateDTO cliente)   {
+        return this.clienteRepository.update( cliente);
     }
 
     @Override
     public Result<String> delete(Integer code) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        return this.clienteRepository.delete(code);
     }
 
     @Override
@@ -51,9 +48,13 @@ public class ClienteService
     }
 
     @Override
-    public Result<List<Cliente>> getByName(Integer index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByName'");
+    public Result<List<Cliente>> getByIdInList(Integer index) {
+        return this.clienteRepository.getByIdInList(index);
+    }
+
+    @Override
+    public Result<Cliente> getById(Integer index) {
+        return this.clienteRepository.getById(index);
     }
 
 }

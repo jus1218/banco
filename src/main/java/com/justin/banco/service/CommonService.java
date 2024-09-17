@@ -7,11 +7,11 @@ import com.justin.banco.helpers.Result;
 
 // T = Clase
 // C = DTO CLASE CREATE
-public interface CommonService<T1,T2,T3,T4,N> {
+public interface CommonService<T1, T2, T3, T4, N> {
 
     Result<T2> create(T2 entity);
 
-    Result<T3> update(N index,T3 entity) throws Exception;
+    Result<T3> update(  T3 entity);
 
     Result<String> delete(N code);
 
@@ -19,6 +19,8 @@ public interface CommonService<T1,T2,T3,T4,N> {
 
     List<Map<String, Object>> getBanksInJson(T4 entity) throws Exception;
 
-    Result<List<T1>> getByName(N index);
+    Result<List<T1>> getByIdInList(N index);
+
+    Result<T1> getById(N index);
 
 }

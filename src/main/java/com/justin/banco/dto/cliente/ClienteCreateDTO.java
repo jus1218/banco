@@ -1,12 +1,14 @@
 package com.justin.banco.dto.cliente;
-
+ 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public record ClienteCreateDTO(
-        @NotNull(message = "Nombre cliente es requerido") String nombre,
-        @NotNull(message = "Primer apellido es requerido") String primerApellido,
-        @NotNull(message = "Segundo apellido es requerido") String segundoApellido,
-        @NotNull int cedula,
-        @NotNull int distrito,
-        @NotNull(message = "Direccion exacta es requerida") String direccionExacta) {
+                @NotNull(message = "Es requerido") @Size(min = 1, message = "El campo no puede estar vacío") String nombre,
+                @NotNull(message = "Es requerido") @Size(min = 1, message = "El campo no puede estar vacío") String primerApellido,
+                @NotNull(message = "Es requerido") @Size(min = 1, message = "El campo no puede estar vacío") String segundoApellido,
+                @NotNull(message = "Es requerido") @Size(min = 1, message = "El campo no puede estar vacío") Integer cedula,
+                @NotNull(message = "Es requerido") @Size(min = 1, message = "El campo no puede estar vacío") String direccionExacta,
+                @NotNull(message = "Es requerido") @Size(min = 1, message = "El campo no puede estar vacío") Integer distrito) {
+
 }

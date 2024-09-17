@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.justin.banco.constants.Message;
 import com.justin.banco.dto.banco.BancoCreateDTO;
 import com.justin.banco.dto.banco.BancoUpdateDTO;
 import com.justin.banco.dto.banco.BancoPaginationDTO;
@@ -18,12 +19,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping(path = "/bancos")
@@ -37,34 +40,37 @@ public class BancoController {
     // return this.bancoService.getAll();
     // }
     @GetMapping("")
-    public List<Map<String, Object>> getBancos(@RequestBody @Valid BancoPaginationDTO pagination) throws JsonMappingException, JsonProcessingException  {
+    public List<Map<String, Object>> getBancos(@RequestBody @Valid BancoPaginationDTO pagination)
+            throws JsonMappingException, JsonProcessingException {
         return this.bancoService.getBanksInJson(pagination);
     }
 
     // http://localhost:8080/bancos/cuentas-cliente
     @GetMapping("/cuentas-cliente")
     public Result<String> getCuentasClientePorBanco() {
-        return Result.success("Cuentas clientes", "");
+        return Result.success("Cuentas clientes", Message.EMPTY);
     }
 
     // http://localhost:8080/bancos/create
     @PostMapping("/create")
-    public Result<BancoCreateDTO> createBanco(@Valid @RequestBody BancoCreateDTO banco) throws Exception {
+    public ResponseEntity<Result<BancoCreateDTO>> createBanco(@Valid @RequestBody BancoCreateDTO banco)
+            throws Exception {
+        var result = this.bancoService.create(banco);
 
-        return this.bancoService.create(banco);
+        return new ResponseEntity<Result<BancoCreateDTO>>(result, HttpStatus.CREATED);
     }
 
     // http://localhost:8080/bancos/BN
     @GetMapping("/search/{name}")
     public Result<List<Banco>> findBankByName(@PathVariable("name") String name) {
 
-        return bancoService.getByName(name);
+        return bancoService.getByIdInList(name);
     }
 
-    @PutMapping("/{id}")
-    public Result<BancoUpdateDTO> updateBankById(@PathVariable String id, @RequestBody BancoUpdateDTO banco) {
+    @PatchMapping("/{id}")
+    public Result<BancoUpdateDTO> updateBankById(@PathVariable String id, @Valid @RequestBody BancoUpdateDTO banco) {
 
-        return this.bancoService.update(id, banco);
+        return this.bancoService.update(banco.copyWith(id));
     }
 
     @DeleteMapping("/{id}")
