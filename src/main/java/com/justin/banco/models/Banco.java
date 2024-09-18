@@ -1,33 +1,28 @@
 package com.justin.banco.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
+// @Entity
 public class Banco {
 
-    @Id
-    private String codigoBanco; 
-    @Column(name = "nombre")
+    // @Id
+    private String codigoBanco;
+    // @Column(name = "nombre")
     private String nombre;
-    @Column(name = "codigo_moneda")
-    private String codigoMoneda; 
-    @Column(name = "codigo_distrito")
-    private String codigoDistrito; 
-    @Column(name = "direccion_exacta")
+    // @Column(name = "codigo_moneda")
+    private Moneda moneda;
+    // @Column(name = "codigo_distrito")
+    private Distrito distrito;
+    // @Column(name = "direccion_exacta")
     private String direccionExacta;
 
     public Banco() {
 
     }
 
-    public Banco(String codigoBanco, String nombre, String codigoMoneda, String codigoDistrito,
-            String direccionExacta) {
+    public Banco(String codigoBanco, String nombre, Moneda moneda, Distrito distrito, String direccionExacta) {
         this.codigoBanco = codigoBanco;
         this.nombre = nombre;
-        this.codigoMoneda = codigoMoneda;
-        this.codigoDistrito = codigoDistrito;
+        this.moneda = moneda;
+        this.distrito = distrito;
         this.direccionExacta = direccionExacta;
     }
 
@@ -55,20 +50,20 @@ public class Banco {
         this.direccionExacta = direccionExacta;
     }
 
-    public String getCodigoMoneda() {
-        return codigoMoneda;
+    public Moneda getMoneda() {
+        return moneda;
     }
 
-    public void setCodigoMoneda(String codigoMoneda) {
-        this.codigoMoneda = codigoMoneda;
+    public void setMoneda(Moneda moneda) {
+        this.moneda = moneda;
     }
 
-    public String getCodigoDistrito() {
-        return codigoDistrito;
+    public Distrito getDistrito() {
+        return distrito;
     }
 
-    public void setCodigoDistrito(String codigoDistrito) {
-        this.codigoDistrito = codigoDistrito;
+    public void setDistrito(Distrito distrito) {
+        this.distrito = distrito;
     }
 
 }

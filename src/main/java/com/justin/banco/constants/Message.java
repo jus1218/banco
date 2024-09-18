@@ -41,7 +41,9 @@ public enum Message {
             "Uno o más de los argumentos proporcionados son inválidos. Por favor, revisa los valores de entrada y asegúrate de que cumplan con el formato y las restricciones requeridas."),
 
     JSON_PROCESSING_EXCEPTION(
-            "Ocurrió un error al procesar el JSON. Esto puede deberse a un formato de JSON incorrecto o a datos que no se pudieron deserializar correctamente.");
+            "Ocurrió un error al procesar el JSON. Esto puede deberse a un formato de JSON incorrecto o a datos que no se pudieron deserializar correctamente."),
+
+    UNCAUGHT_EXCEPTION("Excepción no controlada,informe a desarrollo.");
 
     private final String message;
 

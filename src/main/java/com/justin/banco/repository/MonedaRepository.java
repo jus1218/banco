@@ -1,7 +1,6 @@
 package com.justin.banco.repository;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -9,9 +8,11 @@ import org.springframework.stereotype.Repository;
 import com.justin.banco.dto.moneda.MonedaCreateDTO;
 import com.justin.banco.dto.moneda.MonedaPaginationDTO;
 import com.justin.banco.dto.moneda.MonedaUpdateDTO;
+import com.justin.banco.dto.moneda.MonedaInfoDTO;
 import com.justin.banco.helpers.Result;
 import com.justin.banco.helpers.mappers.MonedaMapper;
 import com.justin.banco.models.Moneda;
+import com.justin.banco.service.MessageManager;
 import com.justin.banco.service.QueryManager;
 
 import jakarta.persistence.EntityManager;
@@ -19,31 +20,36 @@ import jakarta.persistence.PersistenceContext;
 
 @Repository
 public class MonedaRepository
-        implements CommonRepository<Moneda, MonedaCreateDTO, MonedaUpdateDTO, MonedaPaginationDTO, String> {
+        implements
+        CommonRepository<Moneda, MonedaInfoDTO, MonedaCreateDTO, MonedaUpdateDTO, MonedaPaginationDTO, String> {
 
     private @PersistenceContext EntityManager entityManager;
 
     private @Autowired QueryManager queryManager;
 
+    private @Autowired MessageManager messageManager;
+
     @Override
-    public Result<MonedaCreateDTO> create(MonedaCreateDTO entity) {
-        var query = entityManager.createStoredProcedureQuery("SP_C_Currency", Moneda.class);
-        var newCurrency = queryManager.executeProcedureAndGetResult(query, entity, Moneda.class);
+    public Result<MonedaInfoDTO> create(MonedaCreateDTO entity) {
+        var query = entityManager.createStoredProcedureQuery("SP_C_Currency", MonedaInfoDTO.class);
+        var newCurrencyDTO = queryManager.<MonedaInfoDTO>executeProcedureAndGetResult(query, entity);
 
-        var newCurrencyDTO = MonedaMapper.toCreateCurrencyDTO(newCurrency);
+        // var newCurrencyDTO = MonedaMapper.toCreateCurrencyDTO(newCurrency);
+        var message = messageManager.getMessageByCode(queryManager.resultCode, Moneda.class);
 
-        return Result.get(newCurrencyDTO, queryManager.message, queryManager.resultCode);
+        return Result.get(newCurrencyDTO, message, queryManager.resultCode);
     }
 
     @Override
-    public Result<MonedaUpdateDTO> update(MonedaUpdateDTO entity) {
-        var query = entityManager.createStoredProcedureQuery("SP_U_Currency", Moneda.class);
+    public Result<MonedaInfoDTO> update(MonedaUpdateDTO entity) {
+        var query = entityManager.createStoredProcedureQuery("SP_U_Currency", MonedaInfoDTO.class);
 
-        var moneda = queryManager.executeProcedureAndGetResult(query, entity, Moneda.class);
+        var updatedCurrencyDTO = queryManager.<MonedaInfoDTO>executeProcedureAndGetResult(query, entity);
 
-        var updatedCurrencyDTO = MonedaMapper.toUpdateCurrencyDTO(moneda);
+        // var updatedCurrencyDTO = MonedaMapper.toUpdateCurrencyDTO(moneda);
+        var message = messageManager.getMessageByCode(queryManager.resultCode, Moneda.class);
 
-        return Result.get(updatedCurrencyDTO, queryManager.message, queryManager.resultCode);
+        return Result.get(updatedCurrencyDTO, message, queryManager.resultCode);
     }
 
     @Override
@@ -51,37 +57,31 @@ public class MonedaRepository
 
         var query = entityManager.createStoredProcedureQuery("SP_D_Currency");
 
-        queryManager.executeDeleteProcedure(item,query,Moneda.class);
+        queryManager.executeDeleteProcedure(item, query);
+        var message = messageManager.getMessageByCode(queryManager.resultCode, Moneda.class);
 
-        return Result.get(null, queryManager.message, queryManager.resultCode);
+        return Result.get(null, message, queryManager.resultCode);
     }
 
     @Override
-    public Result<List<Moneda>> getAll(MonedaPaginationDTO entity) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+    public Result<List<Moneda>> getBanksInJson(MonedaPaginationDTO entity) {
+
+        var query = entityManager.createStoredProcedureQuery("SP_G_CurrencyAsJson");
+        List<Moneda> monedas = queryManager.<Moneda>executeProcedureAndReturnASJson(query, entity, Moneda.class);
+        var message = messageManager.getMessageByCode(queryManager.resultCode, Moneda.class);
+
+        return Result.get(monedas, message, queryManager.resultCode);
     }
 
     @Override
-    public List<Map<String, Object>> getBanksInJson(MonedaPaginationDTO entity) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBanksInJson'");
-    }
+    public Result<MonedaInfoDTO> getById(String index) {
 
-    @Override
-    public Result<List<Moneda>> getByIdInList(String index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByIdInList'");
-    }
+        var query = entityManager.createStoredProcedureQuery("SP_F_CurrencyById", MonedaInfoDTO.class);
 
-    @Override
-    public Result<Moneda> getById(String index) {
+        var monedas = queryManager.<MonedaInfoDTO, String>executeProcedureAndGetResults(index, query);
+        var message = messageManager.getMessageByCode(queryManager.resultCode, Moneda.class);
 
-        var query = entityManager.createStoredProcedureQuery("SP_F_CurrencyById", Moneda.class);
-
-        var monedas = queryManager.executeProcedureAndGetResults(index, query, Moneda.class);
-
-        return Result.get(monedas.isEmpty() ? null : monedas.get(0), queryManager.message, queryManager.resultCode);
+        return Result.get(monedas.isEmpty() ? null : monedas.get(0), message, queryManager.resultCode);
     }
 
 }

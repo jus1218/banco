@@ -1,7 +1,10 @@
 package com.justin.banco.constants;
 
 public class ResultCodeDB {
-    public static final int PROCEDURE_NOT_EXECUTED =-2;
+    public static final int I_LLEGAL_ACCESS_EXCEPTION = -4;
+    public static final int JSON_PROCESSING_EXCEPTION = -3;
+
+    public static final int PROCEDURE_NOT_EXECUTED = -2;
     public static final int EMPTY = -1;
     public static final int SUCCESS = 0;
     public static final int NULL_VARIABLE = 1;
@@ -13,7 +16,7 @@ public class ResultCodeDB {
     public static final int PRIMARY_KEY_NOT_EXIST = 7;
 }
 // -- 0 = Exitoso
-// -- 1 = 1 o n variables con valor null 
+// -- 1 = 1 o n variables con valor null
 // -- 2 = 1 o n variables con valor vacio
 // -- 3 = codigo banco existente
 // -- 4 = llave foranea no existente

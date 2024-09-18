@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.justin.banco.constants.Message;
 import com.justin.banco.dto.banco.BancoCreateDTO;
+import com.justin.banco.dto.banco.BancoInfoDTO;
 import com.justin.banco.dto.banco.BancoUpdateDTO;
 import com.justin.banco.dto.banco.BancoPaginationDTO;
 import com.justin.banco.helpers.Result;
@@ -16,7 +17,6 @@ import com.justin.banco.service.BancoService;
 import jakarta.validation.Valid;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,35 +40,29 @@ public class BancoController {
     // return this.bancoService.getAll();
     // }
     @GetMapping("")
-    public List<Map<String, Object>> getBancos(@RequestBody @Valid BancoPaginationDTO pagination)
+    public Result<List<Banco>> getBancos(@RequestBody @Valid BancoPaginationDTO pagination)
             throws JsonMappingException, JsonProcessingException {
         return this.bancoService.getBanksInJson(pagination);
     }
 
-    // http://localhost:8080/bancos/cuentas-cliente
-    @GetMapping("/cuentas-cliente")
-    public Result<String> getCuentasClientePorBanco() {
-        return Result.success("Cuentas clientes", Message.EMPTY);
-    }
-
     // http://localhost:8080/bancos/create
     @PostMapping("/create")
-    public ResponseEntity<Result<BancoCreateDTO>> createBanco(@Valid @RequestBody BancoCreateDTO banco)
+    public ResponseEntity<Result<BancoInfoDTO>> createBanco(@Valid @RequestBody BancoCreateDTO banco)
             throws Exception {
         var result = this.bancoService.create(banco);
 
-        return new ResponseEntity<Result<BancoCreateDTO>>(result, HttpStatus.CREATED);
+        return new ResponseEntity<Result<BancoInfoDTO>>(result, HttpStatus.CREATED);
     }
 
     // http://localhost:8080/bancos/BN
     @GetMapping("/search/{name}")
-    public Result<List<Banco>> findBankByName(@PathVariable("name") String name) {
+    public Result<BancoInfoDTO> findBankByName(@PathVariable("name") String name) {
 
-        return bancoService.getByIdInList(name);
+        return bancoService.getById(name);
     }
 
     @PatchMapping("/{id}")
-    public Result<BancoUpdateDTO> updateBankById(@PathVariable String id, @Valid @RequestBody BancoUpdateDTO banco) {
+    public Result<BancoInfoDTO> updateBankById(@PathVariable String id, @Valid @RequestBody BancoUpdateDTO banco) {
 
         return this.bancoService.update(banco.copyWith(id));
     }

@@ -1,34 +1,31 @@
 package com.justin.banco.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import java.math.BigDecimal;
-
-
-@Entity
+// @Entity
 public class Cliente {
-    @Id
-    private BigDecimal codigoCliente;
-    @Column(name = "nombre")
+    // @Id
+    private Integer codigoCliente;
+    // @Column(name = "nombre")
     private String nombre;
-    @Column(name = "primer_apellido")
+    // @Column(name = "primer_apellido")
     private String primerApellido;
-    @Column(name = "segundo_apellido")
+    // @Column(name = "segundo_apellido")
     private String segundoApellido;
-    @Column(name = "cedula")
-    private BigDecimal cedula;
-    @Column(name = "direccion_exacta")
+    // @Column(name = "cedula")
+    private Integer cedula;
+    // @Column(name = "direccion_exacta")
     private String direccionExacta;
-    @Column(name = "distrito")
-    private int distrito;
 
-    public Cliente(){
-        
+    // @ManyToOne
+    // @JoinColumn(name = "codigo_distrito", referencedColumnName =
+    // "codigo_distrito")
+    private Distrito distrito;
+
+    public Cliente() {
+
     }
 
-    public Cliente(BigDecimal codigoCliente, String nombre, String primerApellido, String segundoApellido,
-            BigDecimal cedula, String direccionExacta, int distrito) {
+    public Cliente(Integer codigoCliente, String nombre, String primerApellido, String segundoApellido, Integer cedula,
+            String direccionExacta, Distrito distrito) {
         this.codigoCliente = codigoCliente;
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -37,48 +34,61 @@ public class Cliente {
         this.direccionExacta = direccionExacta;
         this.distrito = distrito;
     }
-    public BigDecimal getCodigoCliente() {
+
+    public Integer getCodigoCliente() {
         return codigoCliente;
     }
-    public void setCodigoCliente(BigDecimal codigoCliente) {
+
+    public void setCodigoCliente(Integer codigoCliente) {
         this.codigoCliente = codigoCliente;
     }
+
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public String getPrimerApellido() {
         return primerApellido;
     }
+
     public void setPrimerApellido(String primerApellido) {
         this.primerApellido = primerApellido;
     }
+
     public String getSegundoApellido() {
         return segundoApellido;
     }
+
     public void setSegundoApellido(String segundoApellido) {
         this.segundoApellido = segundoApellido;
     }
-    public BigDecimal getCedula() {
+
+    public Integer getCedula() {
         return cedula;
     }
-    public void setCedula(BigDecimal cedula) {
+
+    public void setCedula(Integer cedula) {
         this.cedula = cedula;
     }
+
     public String getDireccionExacta() {
         return direccionExacta;
     }
+
     public void setDireccionExacta(String direccionExacta) {
         this.direccionExacta = direccionExacta;
     }
-    public int getDistrito() {
+
+    public Distrito getDistrito() {
         return distrito;
     }
-    public void setDistrito(int distrito) {
+
+    public void setDistrito(Distrito distrito) {
         this.distrito = distrito;
     }
 
-    
 }

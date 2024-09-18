@@ -3,16 +3,13 @@ package com.justin.banco.service;
 import java.lang.reflect.Field;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.justin.banco.constants.Message;
 import com.justin.banco.constants.ResultCodeDB;
 
 import java.util.ArrayList;
@@ -23,51 +20,45 @@ import jakarta.persistence.StoredProcedureQuery;
 @Service
 public class QueryManager {
 
-    public Message message;
     private Integer positionResultCode = 2;
-    public Integer resultCode = -1;
-    @Autowired
-    private MessageManager messageManager;
+    public Integer resultCode = ResultCodeDB.PROCEDURE_NOT_EXECUTED;
     @Autowired
     private ObjectMapper objectMapper;
 
     // Actualizar y crear
-    public <T> void executeCreateOrUpdateProcedure(StoredProcedureQuery query, Object instance, Class<T> type) {
+    public <T> void executeCreateOrUpdateProcedure(StoredProcedureQuery query, Object instance) {
 
         var fields = getInstanceAttributeArray(instance);
 
         try {
             registerParameters(query, fields, instance, true);
             query.execute();
-            resultCode = (int) query.getOutputParameterValue(positionResultCode);
-            message = messageManager.<T>getMessageByCode(resultCode, type);
+            resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
+
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            resultCode = -1;
-            message = Message.FAILURE;
+
         }
 
     }
 
     // sirve para eliminar
-    public <T, N> void executeDeleteProcedure(N index, StoredProcedureQuery query, Class<T> type) {
+    public <T, N> void executeDeleteProcedure(N index, StoredProcedureQuery query) {
 
         registerParameter(query, index);
 
         query.execute();
-        resultCode = (int) query.getOutputParameterValue(positionResultCode);
-        message = messageManager.<T>getMessageByCode(resultCode, type);
+        resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
 
     }
 
     // Buscar
-    public <T, N> List<T> executeProcedureAndGetResults(N index, StoredProcedureQuery query, Class<T> type) {
+    public <T, N> List<T> executeProcedureAndGetResults(N index, StoredProcedureQuery query) {
         positionResultCode = 2;
 
         registerParameter(query, index);
         query.execute();
 
-        resultCode = (int) query.getOutputParameterValue(positionResultCode);
-        message = messageManager.<T>getMessageByCode(resultCode, type);
+        resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
 
         if (resultCode != ResultCodeDB.SUCCESS) {
             return new ArrayList<T>();
@@ -83,7 +74,7 @@ public class QueryManager {
     }
 
     public <N> void registerParameter(StoredProcedureQuery query, N id) {
-        positionResultCode=2;
+        positionResultCode = 2;
         query.registerStoredProcedureParameter(1, id.getClass(), ParameterMode.IN);
         query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
         query.setParameter(1, id);
@@ -120,70 +111,74 @@ public class QueryManager {
         return clazz.getDeclaredFields();
     }
 
-    public <T> List<Map<String, Object>> executeProcedureAndReturnJson(StoredProcedureQuery query, Object instance,
-            Class<T> type) {
-        try {
-            var fields = getInstanceAttributeArray(instance);
-
-            registerParameters(query, fields, instance, false);
-
-            boolean hasResults = query.execute();
-            var results = query.getResultList();// puede retorna una exception si no trae nada
-
-            if (results.isEmpty()) {
-
-                return objectMapper.readValue("[]", new TypeReference<List<Map<String, Object>>>() {
-                });
-
-            }
-
-            String jsonResult = (String) results.get(0);
-
-            // Procesar el JSON
-            JsonNode jsonNode;
-
-            jsonNode = objectMapper.readTree(jsonResult);
-
-            // Convertir JsonNode a List<Map<String, Object>>
-            List<Map<String, Object>> entities = objectMapper.readValue(jsonNode.toString(),
-                    new TypeReference<List<Map<String, Object>>>() {
-                    });
-
-            return entities;
-
-        } catch (IllegalAccessException | IllegalArgumentException e) {
-            resultCode = -1;
-            message = Message.I_LLEGAL_ACCESS_EXCEPTION;
-        } catch (JsonProcessingException e) {
-            resultCode = -1;
-            message = Message.JSON_PROCESSING_EXCEPTION;
-        }
-
-        return null;
-    }
-
-    public <T, N> T executeProcedureAndGetResult(StoredProcedureQuery query, Object instance, Class<T> type) {
+    public <T> T executeProcedureAndGetResult(StoredProcedureQuery query, Object instance) {
 
         var fields = getInstanceAttributeArray(instance);
 
         try {
             registerParameters(query, fields, instance, true);
             boolean hasResults = query.execute();
-            resultCode = (int) query.getOutputParameterValue(positionResultCode);
-            message = messageManager.<T>getMessageByCode(resultCode, type);
+            resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
 
-            if (resultCode != ResultCodeDB.SUCCESS) return null;
-            if (!hasResults) return null;
+            if (resultCode != ResultCodeDB.SUCCESS)
+                return null;
+            if (!hasResults)
+                return null;
 
             var results = query.getResultList();
             @SuppressWarnings("unchecked")
             var entity = (T) results.get(0);
+
             return entity;
 
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            resultCode = -1;
-            message = Message.I_LLEGAL_ACCESS_EXCEPTION;
+            // resultCode = -1;
+            // message = Message.I_LLEGAL_ACCESS_EXCEPTION;
         }
         return null;
     }
+
+    public <T> List<T> executeProcedureAndReturnASJson(StoredProcedureQuery query, Object instance, Class<T> clazz) {
+        try {
+            var fields = getInstanceAttributeArray(instance);
+            var str = new StringBuilder();
+
+            registerParameters(query, fields, instance, true);
+
+            boolean hasResults = query.execute();
+            if (!hasResults)
+                return null;
+
+            var results = query.getResultList();
+
+            if (results.isEmpty()) {
+                return new ArrayList<T>();
+            }
+
+            // var jsonResult = results.get(0).toString();
+            resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
+
+            for (int i = 0; i < results.size(); i++) {
+                var jsonResult = results.get(i).toString();
+                str.append(jsonResult);
+            }
+
+            // JsonNode jsonNode = objectMapper.readTree(jsonResult.toString());
+            JsonNode jsonNode = objectMapper.readTree(str.toString());
+
+            // Crear TypeReference usando clazz
+            List<T> entities = objectMapper.readValue(jsonNode.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
+
+            return entities;
+
+        } catch (IllegalAccessException | IllegalArgumentException e) {
+            resultCode = ResultCodeDB.I_LLEGAL_ACCESS_EXCEPTION;
+        } catch (JsonProcessingException e) {
+            resultCode = ResultCodeDB.JSON_PROCESSING_EXCEPTION;
+        }
+
+        return null;
+    }
+
 }

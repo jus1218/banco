@@ -3,10 +3,8 @@ package com.justin.banco.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "moneda")
 public class Moneda {
 
     @Id
@@ -16,7 +14,8 @@ public class Moneda {
     @Column(name = "nombre")
     private String nombre;
 
-    public Moneda(){}
+    public Moneda() {
+    }
 
     public Moneda(String codigoMoneda, String nombre) {
         this.codigoMoneda = codigoMoneda;

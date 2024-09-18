@@ -17,12 +17,12 @@ public class Result<T> {
         this.isSuccess = isSuccess;
     }
 
-    public static <T> Result<T> get(T valor, Message message,int ResultCode) {
+    public static <T> Result<T> get(T valor, Message message, int resultCode) {
 
-        if (ResultCode == ResultCodeDB.SUCCESS)
+        if (resultCode == ResultCodeDB.SUCCESS)
             return success(valor, message);
 
-        return failure(message);
+        return failure(message, resultCode);
 
     }
 
@@ -30,14 +30,10 @@ public class Result<T> {
         return new Result<T>(valor, message, true);
     }
 
-    public static <T> Result<T> failure(Message msg) {
-        // return new Result<T>(null, msg, false);
-        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, msg);
-        // throw new CustomBadRequestException(msg);
+    public static <T> Result<T> failure(Message msg, int resultCode) {
 
-        if (Message.PRIMARY_KEY_NOT_EXIST.equals(msg)) {
+        if (resultCode == ResultCodeDB.PRIMARY_KEY_NOT_EXIST) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, msg.getMessage());
-
         }
         throw new RuntimeException(msg.getMessage());
 

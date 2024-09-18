@@ -1,9 +1,13 @@
 package com.justin.banco.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.justin.banco.dto.moneda.MonedaCreateDTO;
+import com.justin.banco.dto.moneda.MonedaPaginationDTO;
 import com.justin.banco.dto.moneda.MonedaUpdateDTO;
+import com.justin.banco.dto.moneda.MonedaInfoDTO;
 import com.justin.banco.helpers.Result;
 import com.justin.banco.models.Moneda;
 import com.justin.banco.service.MonedaService;
@@ -28,26 +32,31 @@ public class MonedaController {
     private @Autowired MonedaService monedaService;
 
     @GetMapping("/{id}")
-    public Result<Moneda> getCurrencyById(@PathVariable("id") String id) {
+    public Result<MonedaInfoDTO> getCurrencyById(@PathVariable("id") String id) {
         return this.monedaService.getById(id);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Result<MonedaCreateDTO>> createCurrency(@RequestBody @Valid MonedaCreateDTO entity) {
+    public ResponseEntity<Result<MonedaInfoDTO>> createCurrency(@RequestBody @Valid MonedaCreateDTO entity) {
 
         var result = this.monedaService.create(entity);
-        return new ResponseEntity<Result<MonedaCreateDTO>>(result, HttpStatus.CREATED);
+        return new ResponseEntity<Result<MonedaInfoDTO>>(result, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public Result<MonedaUpdateDTO> updatedCurrency(@PathVariable("id") String id,
+    public Result<MonedaInfoDTO> updatedCurrency(@PathVariable("id") String id,
             @RequestBody @Valid MonedaUpdateDTO currency) {
         return this.monedaService.update(currency.copyWith(id));
     }
 
     @DeleteMapping("/{id}")
-    public Result<String> deleteCurrency(@PathVariable("id") String id){
+    public Result<String> deleteCurrency(@PathVariable("id") String id) {
         return this.monedaService.delete(id);
+    }
+
+    @GetMapping("")
+    public Result<List<Moneda>> getCurrenciesAsJson(@RequestBody @Valid MonedaPaginationDTO pagination) {
+        return this.monedaService.getBanksInJson(pagination);
     }
 
 }

@@ -1,25 +1,34 @@
 package com.justin.banco.models;
- 
 
-// @Entity
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 // @Table(name = "distrito")
+@Entity
+
 public class Distrito {
-    // @Id
-    // @Column(name = "codigo_distrito")
-    private int codigoDistrito;
-    // @Column(name = "nombre")
+    @Id
+    @Column(name = "codigo_distrito")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    private Integer codigoDistrito;
+    @Column(name = "nombre")
     private String nombre;
 
-    public Distrito(int codigoDistrito, String nombre) {
+    public Distrito() {
+    }
+
+    public Distrito(Integer codigoDistrito, String nombre) {
         this.codigoDistrito = codigoDistrito;
         this.nombre = nombre;
     }
 
-    public int getCodigoDistrito() {
+    public Integer getCodigoDistrito() {
         return codigoDistrito;
     }
 
-    public void setCodigoDistrito(int id) {
+    public void setCodigoDistrito(Integer id) {
         this.codigoDistrito = id;
     }
 

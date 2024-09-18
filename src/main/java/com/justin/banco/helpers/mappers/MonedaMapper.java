@@ -2,17 +2,17 @@ package com.justin.banco.helpers.mappers;
 
 import com.justin.banco.dto.moneda.MonedaCreateDTO;
 import com.justin.banco.dto.moneda.MonedaUpdateDTO;
-import com.justin.banco.models.Moneda;
+import com.justin.banco.dto.moneda.MonedaInfoDTO;
 
 public class MonedaMapper {
 
-    public static MonedaCreateDTO toCreateCurrencyDTO(Moneda moneda) {
+    public static MonedaCreateDTO toCreateCurrencyDTO(MonedaInfoDTO moneda) {
         if (moneda == null)
             return null;
         return new MonedaCreateDTO(moneda.getCodigoMoneda(), moneda.getNombre());
     }
 
-    public static MonedaUpdateDTO toUpdateCurrencyDTO(Moneda moneda) {
+    public static MonedaUpdateDTO toUpdateCurrencyDTO(MonedaInfoDTO moneda) {
         if (moneda == null)
             return null;
         return new MonedaUpdateDTO(moneda.getCodigoMoneda(), moneda.getNombre());

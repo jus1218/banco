@@ -1,19 +1,17 @@
 package com.justin.banco.controller;
 
-import java.util.List;
-import java.util.Map;
+import java.util.List; 
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.justin.banco.dto.banco.BancoCreateDTO;
+import com.fasterxml.jackson.databind.JsonMappingException; 
 import com.justin.banco.dto.cliente.ClientPaginationDTO;
 import com.justin.banco.dto.cliente.ClienteCreateDTO;
+import com.justin.banco.dto.cliente.ClienteInfoDTO;
 import com.justin.banco.dto.cliente.ClienteUpdateDTO;
-import com.justin.banco.models.Cliente;
 import com.justin.banco.service.ClienteService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.justin.banco.helpers.Result;
+import com.justin.banco.models.Cliente;
 
 @RestController
 @RequestMapping("/clientes")
@@ -37,21 +36,21 @@ public class ClienteController {
     private @Autowired ClienteService clienteService;
 
     @GetMapping("")
-    public List<Map<String, Object>> getClients(@RequestBody @Valid ClientPaginationDTO param)
+    public  Result<List<Cliente>> getClients(@RequestBody @Valid ClientPaginationDTO param)
             throws JsonMappingException, JsonProcessingException {
         return this.clienteService.getBanksInJson(param);
     }
 
     @GetMapping("/{id}")
-    public Result<Cliente> getClientById(@PathVariable("id") int id) {
+    public Result<ClienteInfoDTO> getClientById(@PathVariable("id") int id) {
         return this.clienteService.getById(id);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Result<ClienteCreateDTO>> createBanco(@Valid @RequestBody ClienteCreateDTO cliente) throws Exception {
+    public ResponseEntity<Result<ClienteInfoDTO>> createBanco(@Valid @RequestBody ClienteCreateDTO cliente) throws Exception {
 
         var result = this.clienteService.create(cliente);
-        return new ResponseEntity<Result<ClienteCreateDTO>>(result, HttpStatus.CREATED);
+        return new ResponseEntity<Result<ClienteInfoDTO>>(result, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -60,7 +59,7 @@ public class ClienteController {
     }
 
     @PatchMapping("/{id}")
-    public Result<ClienteUpdateDTO> updateClient(@PathVariable Integer id,
+    public Result<ClienteInfoDTO> updateClient(@PathVariable Integer id,
             @Valid @RequestBody ClienteUpdateDTO cliente) {
         return this.clienteService.update(cliente.copyWith(id));
     }
