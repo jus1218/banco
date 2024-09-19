@@ -3,13 +3,11 @@ package com.justin.banco.models;
 public class Telefono {
 
     private final int codigoTelefono;
-    private final String numero;
-    private final String descripcion;
+    private final String numero; 
 
-    public Telefono(int codigoTelefono, String numero, String descripcion) {
+    public Telefono(int codigoTelefono, String numero ) {
         this.codigoTelefono = codigoTelefono;
-        this.numero = numero;
-        this.descripcion = descripcion;
+        this.numero = numero; 
     }
 
     public int getCodigoTelefono() {
@@ -19,9 +17,6 @@ public class Telefono {
     public String getNumero() {
         return numero;
     }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
+ 
 
 }

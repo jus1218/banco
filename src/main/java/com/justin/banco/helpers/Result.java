@@ -19,7 +19,7 @@ public class Result<T> {
 
     public static <T> Result<T> get(T valor, Message message, int resultCode) {
 
-        if (resultCode == ResultCodeDB.SUCCESS)
+        if (ResultCodeDB.isSuccessResultCode(resultCode))
             return success(valor, message);
 
         return failure(message, resultCode);
@@ -53,5 +53,6 @@ public class Result<T> {
     public boolean isSuccess() {
         return this.isSuccess;
     }
+
 
 }

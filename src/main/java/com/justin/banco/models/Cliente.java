@@ -1,5 +1,7 @@
 package com.justin.banco.models;
 
+import java.util.List;
+
 // @Entity
 public class Cliente {
     // @Id
@@ -19,13 +21,14 @@ public class Cliente {
     // @JoinColumn(name = "codigo_distrito", referencedColumnName =
     // "codigo_distrito")
     private Distrito distrito;
+    private List<Telefono> telefono;
 
     public Cliente() {
 
     }
 
     public Cliente(Integer codigoCliente, String nombre, String primerApellido, String segundoApellido, Integer cedula,
-            String direccionExacta, Distrito distrito) {
+            String direccionExacta, Distrito distrito, List<Telefono> telefono) {
         this.codigoCliente = codigoCliente;
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -33,6 +36,7 @@ public class Cliente {
         this.cedula = cedula;
         this.direccionExacta = direccionExacta;
         this.distrito = distrito;
+        this.telefono = telefono;
     }
 
     public Integer getCodigoCliente() {
@@ -89,6 +93,14 @@ public class Cliente {
 
     public void setDistrito(Distrito distrito) {
         this.distrito = distrito;
+    }
+
+    public List<Telefono> getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(List<Telefono> telefono) {
+        this.telefono = telefono;
     }
 
 }

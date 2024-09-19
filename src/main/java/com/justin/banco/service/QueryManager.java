@@ -60,9 +60,8 @@ public class QueryManager {
 
         resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
 
-        if (resultCode != ResultCodeDB.SUCCESS) {
+        if (!ResultCodeDB.isSuccessResultCode(resultCode))
             return new ArrayList<T>();
-        }
 
         var results = query.getResultList();
         @SuppressWarnings("unchecked")
@@ -120,7 +119,7 @@ public class QueryManager {
             boolean hasResults = query.execute();
             resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
 
-            if (resultCode != ResultCodeDB.SUCCESS)
+            if (!ResultCodeDB.isSuccessResultCode(resultCode))
                 return null;
             if (!hasResults)
                 return null;

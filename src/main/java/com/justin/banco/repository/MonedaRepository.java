@@ -46,7 +46,6 @@ public class MonedaRepository
 
         var updatedCurrencyDTO = queryManager.<MonedaInfoDTO>executeProcedureAndGetResult(query, entity);
 
-        // var updatedCurrencyDTO = MonedaMapper.toUpdateCurrencyDTO(moneda);
         var message = messageManager.getMessageByCode(queryManager.resultCode, Moneda.class);
 
         return Result.get(updatedCurrencyDTO, message, queryManager.resultCode);

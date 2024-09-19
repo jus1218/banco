@@ -13,6 +13,7 @@ public class Moneda {
 
     @Column(name = "nombre")
     private String nombre;
+    
 
     public Moneda() {
     }

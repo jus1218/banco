@@ -14,6 +14,20 @@ public class ResultCodeDB {
     public static final int SPECIAL_CHARACTER_VALUES = 5;
     public static final int VALUE_TOO_LONG = 6;
     public static final int PRIMARY_KEY_NOT_EXIST = 7;
+
+    public static final int CREATE = 10;
+    public static final int DELETE = 11;
+    public static final int UPDATED = 12;
+
+    public static boolean isSuccessResultCode(int resultCode) {
+
+        if (resultCode == ResultCodeDB.SUCCESS || resultCode == ResultCodeDB.CREATE
+                || resultCode == ResultCodeDB.UPDATED || resultCode == ResultCodeDB.DELETE) {
+            return true;
+        }
+
+        return false;
+    }
 }
 // -- 0 = Exitoso
 // -- 1 = 1 o n variables con valor null
