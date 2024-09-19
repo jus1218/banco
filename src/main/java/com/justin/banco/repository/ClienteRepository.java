@@ -8,12 +8,10 @@ import jakarta.persistence.StoredProcedureQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import com.justin.banco.dto.banco.BancoInfoDTO;
+ 
 import com.justin.banco.dto.cliente.*;
 import com.justin.banco.helpers.Result;
-import com.justin.banco.models.Cliente;
-import com.justin.banco.models.Moneda;
+import com.justin.banco.models.Cliente; 
 import com.justin.banco.service.MessageManager;
 import com.justin.banco.service.QueryManager;
 

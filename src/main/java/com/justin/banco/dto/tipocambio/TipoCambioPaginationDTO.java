@@ -1,7 +1,5 @@
 package com.justin.banco.dto.tipocambio;
 
-import java.time.LocalDate;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
