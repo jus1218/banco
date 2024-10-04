@@ -10,6 +10,7 @@ import com.justin.banco.constants.ResultCodeDB;
 import com.justin.banco.dto.cliente.ClienteInfoDTO;
 import com.justin.banco.models.Banco;
 import com.justin.banco.models.Moneda;
+import com.justin.banco.models.Telefono;
 import com.justin.banco.models.TipoCambio;
 
 @Service
@@ -24,6 +25,7 @@ public class MessageManager {
     private static final Map<Integer, Message> bankMessages = new HashMap<Integer, Message>();
     private static final Map<Integer, Message> currencyMessages = new HashMap<Integer, Message>();
     private static final Map<Integer, Message> exchangeRateMessages = new HashMap<Integer, Message>();
+    private static final Map<Integer, Message> phoneMessages = new HashMap<Integer, Message>();
 
     static {
         genericMessages.put(ResultCodeDB.SUCCESS, Message.SUCCESS);
@@ -87,6 +89,29 @@ public class MessageManager {
         exchangeRateMessages.put(ResultCodeDB.SPECIAL_CHARACTER_VALUES, Message.SPECIAL_CHARACTER_VALUES);
         exchangeRateMessages.put(ResultCodeDB.VALUE_TOO_LONG, Message.VALUE_TOO_LONG);
         exchangeRateMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST, Message.EXCHANGE_RATE_PRIMARY_KEY_NOT_EXIST);
+        // TELEFONO
+        phoneMessages.put(ResultCodeDB.CREATE, Message.PHONE_CREATE_SUCCESS);
+        phoneMessages.put(ResultCodeDB.UPDATED, Message.PHONE_UPDATE_SUCCESS);
+        phoneMessages.put(ResultCodeDB.DELETE, Message.PHONE_DELETE_SUCCESS);
+
+        phoneMessages.put(ResultCodeDB.SUCCESS, Message.PHONE_SUCCESS);
+        phoneMessages.put(ResultCodeDB.NULL_VARIABLE, Message.PHONE_NULL_VARIABLE);
+        phoneMessages.put(ResultCodeDB.EMPTY_VARIABLE, Message.PHONE_EMPTY_VARIABLE);
+        phoneMessages.put(ResultCodeDB.TABLE_CODE_EXISTS, Message.PHONE_TABLE_CODE_EXISTS);
+        phoneMessages.put(ResultCodeDB.FOREIGN_KEY_NOT_EXIST, Message.PHONE_FOREIGN_KEY_NOT_EXIST);
+        phoneMessages.put(ResultCodeDB.SPECIAL_CHARACTER_VALUES, Message.SPECIAL_CHARACTER_VALUES);
+        phoneMessages.put(ResultCodeDB.VALUE_TOO_LONG, Message.VALUE_TOO_LONG);
+        phoneMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST, Message.PHONE_PRIMARY_KEY_NOT_EXIST);
+
+        // phoneMessages.put(ResultCodeDB.SUCCESS, Message.SUCCESS);
+        // phoneMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST,
+        // Message.PRIMARY_KEY_NOT_EXIST);
+        // phoneMessages.put(ResultCodeDB.NULL_VARIABLE, Message.NULL_VARIABLE);
+
+        // phoneMessages.put(ResultCodeDB.CREATE, Message.P);
+        // phoneMessages.put(ResultCodeDB.UPDATED,
+        // Message.EXCHANGE_RATE_UPDATE_SUCCESS);
+        // phoneMessages.put(ResultCodeDB.DELETE, Message.EXCHANGE_RATE_DELETE_SUCCESS);
 
         // Inicializacion de mensajes de execciones
         exeptionsMessages.put(ResultCodeDB.PROCEDURE_NOT_EXECUTED, Message.PROCEDURE_NOT_EXECUTED);
@@ -98,6 +123,7 @@ public class MessageManager {
         typeMessageMap.put(ClienteInfoDTO.class, clientMessage);
         typeMessageMap.put(Moneda.class, currencyMessages);
         typeMessageMap.put(TipoCambio.class, exchangeRateMessages);
+        typeMessageMap.put(Telefono.class, phoneMessages);
     }
 
     public <T> Message getMessageByCode(int resultCode, Class<T> type) {

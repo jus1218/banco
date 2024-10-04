@@ -10,6 +10,7 @@ import com.justin.banco.dto.banco.BancoUpdateDTO;
 import com.justin.banco.dto.banco.BancoPaginationDTO;
 import com.justin.banco.helpers.Result;
 import com.justin.banco.models.Banco;
+import com.justin.banco.models.Telefono;
 import com.justin.banco.repository.BancoRepository;
 
 @Service
@@ -41,6 +42,11 @@ public class BancoService
     @Override
     public Result<BancoInfoDTO> getById(String index) {
         return this.bancoRepository.getById(index);
+    }
+
+    public Result<List<Telefono>> getPhonesByCodeBank(String codigoBanco) {
+
+        return this.bancoRepository.getPhonesByCodeBank(codigoBanco);
     }
 
 }

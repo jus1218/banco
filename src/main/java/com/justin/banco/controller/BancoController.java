@@ -1,18 +1,21 @@
 package com.justin.banco.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
- 
+
 import com.justin.banco.dto.banco.BancoCreateDTO;
 import com.justin.banco.dto.banco.BancoInfoDTO;
-import com.justin.banco.dto.banco.BancoUpdateDTO;
+import com.justin.banco.dto.banco.BancoUpdateDTO; 
 import com.justin.banco.dto.banco.BancoPaginationDTO;
 import com.justin.banco.helpers.Result;
 import com.justin.banco.models.Banco;
+import com.justin.banco.models.Telefono; 
 import com.justin.banco.service.BancoService;
+import com.justin.banco.service.TelefonoService;
 
 import jakarta.validation.Valid;
 
@@ -33,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class BancoController {
 
     private @Autowired BancoService bancoService;
+    private @Autowired TelefonoService telefonoService;
 
     // http://localhost:8080/bancos
     // @GetMapping("")
@@ -40,10 +44,28 @@ public class BancoController {
     // return this.bancoService.getAll();
     // }
     @GetMapping("")
-    public Result<List<Banco>> getBancos(@RequestBody @Valid BancoPaginationDTO pagination)
+    public Result<List<Banco>> getBancos(
+            @RequestParam(required = false) Integer offset,
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String distrito)
             throws JsonMappingException, JsonProcessingException {
+
+        var pagination = new BancoPaginationDTO(offset != null ? offset : 0,
+                limit != null ? limit : 10, // valor por defecto
+                nombre,
+                distrito);
+
         return this.bancoService.getBanksInJson(pagination);
     }
+
+    // @GetMapping("")
+    // public Result<List<Banco>> getBancos(@RequestBody @Valid BancoPaginationDTO
+    // pagination)
+    // throws JsonMappingException, JsonProcessingException {
+
+    // return this.bancoService.getBanksInJson(pagination);
+    // }
 
     // http://localhost:8080/bancos/create
     @PostMapping("/create")
@@ -72,4 +94,10 @@ public class BancoController {
         return this.bancoService.delete(id);
     }
 
+    @GetMapping("/phones/{id}")
+    public Result<List<Telefono>> getPhonesByCodeBank(@PathVariable("id") String id) {
+        return this.bancoService.getPhonesByCodeBank(id);
+    }
+
+ 
 }

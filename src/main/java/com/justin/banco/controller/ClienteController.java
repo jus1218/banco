@@ -1,13 +1,13 @@
 package com.justin.banco.controller;
 
-import java.util.List; 
+import java.util.List;
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException; 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.justin.banco.dto.cliente.ClientPaginationDTO;
 import com.justin.banco.dto.cliente.ClienteCreateDTO;
 import com.justin.banco.dto.cliente.ClienteInfoDTO;
@@ -15,7 +15,7 @@ import com.justin.banco.dto.cliente.ClienteUpdateDTO;
 import com.justin.banco.service.ClienteService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +36,12 @@ public class ClienteController {
     private @Autowired ClienteService clienteService;
 
     @GetMapping("")
-    public  Result<List<Cliente>> getClients(@RequestBody @Valid ClientPaginationDTO param)
-            throws JsonMappingException, JsonProcessingException {
+    public Result<List<Cliente>> getClients(
+            @RequestParam(required = true) Integer offset,
+            @RequestParam(required = true) Integer limit,
+            @RequestParam(required = false) String nombre) {
+
+        var param = new ClientPaginationDTO(offset, limit, nombre, null, null);
         return this.clienteService.getBanksInJson(param);
     }
 
@@ -47,7 +51,8 @@ public class ClienteController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Result<ClienteInfoDTO>> createBanco(@Valid @RequestBody ClienteCreateDTO cliente) throws Exception {
+    public ResponseEntity<Result<ClienteInfoDTO>> createBanco(@Valid @RequestBody ClienteCreateDTO cliente)
+            throws Exception {
 
         var result = this.clienteService.create(cliente);
         return new ResponseEntity<Result<ClienteInfoDTO>>(result, HttpStatus.CREATED);

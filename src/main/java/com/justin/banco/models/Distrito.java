@@ -1,19 +1,15 @@
 package com.justin.banco.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+ 
 // @Table(name = "distrito")
-@Entity
+// @Entity
 
 public class Distrito {
-    @Id
-    @Column(name = "codigo_distrito")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    // @Id
+    // @Column(name = "codigo_distrito")
+    // @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer codigoDistrito;
-    @Column(name = "nombre")
+    // @Column(name = "nombre")
     private String nombre;
 
     public Distrito() {

@@ -180,4 +180,92 @@ public class QueryManager {
         return null;
     }
 
+    public <T, N> List<T> executeProcedureAndReturnASJson2(StoredProcedureQuery query, N id, Class<T> clazz) {
+        try {
+            // var fields = getInstanceAttributeArray(instance);
+            var str = new StringBuilder();
+
+            // registerParameters(query, fields, instance, true);
+            registerParameter(query, id);
+
+            boolean hasResults = query.execute();
+            if (!hasResults)
+                return null;
+
+            var results = query.getResultList();
+
+            if (results.isEmpty()) {
+                return new ArrayList<T>();
+            }
+
+            // var jsonResult = results.get(0).toString();
+            resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
+
+            for (int i = 0; i < results.size(); i++) {
+                var jsonResult = results.get(i).toString();
+                str.append(jsonResult);
+            }
+
+            // JsonNode jsonNode = objectMapper.readTree(jsonResult.toString());
+            JsonNode jsonNode = objectMapper.readTree(str.toString());
+
+            // Crear TypeReference usando clazz
+            List<T> entities = objectMapper.readValue(jsonNode.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
+
+            return entities;
+
+        } catch (JsonProcessingException e) {
+            resultCode = ResultCodeDB.JSON_PROCESSING_EXCEPTION;
+        }
+
+        return null;
+    }
+
+
+
+    
+    public <T, N> List<T> executeProcedureAndReturnASJson(StoredProcedureQuery query, Class<T> clazz) {
+        try {
+            // var fields = getInstanceAttributeArray(instance);
+            var str = new StringBuilder();
+
+            // registerParameters(query, fields, instance, true);
+            // registerParameter(query, id);
+            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
+
+            boolean hasResults = query.execute();
+            if (!hasResults)
+                return null;
+
+            var results = query.getResultList();
+
+            if (results.isEmpty()) {
+                return new ArrayList<T>();
+            }
+
+            // var jsonResult = results.get(0).toString();
+            resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
+
+            for (int i = 0; i < results.size(); i++) {
+                var jsonResult = results.get(i).toString();
+                str.append(jsonResult);
+            }
+
+            // JsonNode jsonNode = objectMapper.readTree(jsonResult.toString());
+            JsonNode jsonNode = objectMapper.readTree(str.toString());
+
+            // Crear TypeReference usando clazz
+            List<T> entities = objectMapper.readValue(jsonNode.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
+
+            return entities;
+
+        } catch (JsonProcessingException e) {
+            resultCode = ResultCodeDB.JSON_PROCESSING_EXCEPTION;
+        }
+
+        return null;
+    }
+
 }

@@ -91,7 +91,7 @@ import jakarta.persistence.Id;
 @Entity
 public class ClienteInfoDTO {
     @Id
-    private BigDecimal codigoCliente;
+    private Integer codigoCliente;
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "primer_apellido")
@@ -99,7 +99,7 @@ public class ClienteInfoDTO {
     @Column(name = "segundo_apellido")
     private String segundoApellido;
     @Column(name = "cedula")
-    private BigDecimal cedula;
+    private Integer cedula;
     @Column(name = "direccion_exacta")
     private String direccionExacta;
     @Column(name = "codigo_distrito")
@@ -109,8 +109,8 @@ public class ClienteInfoDTO {
 
     }
 
-    public ClienteInfoDTO(BigDecimal codigoCliente, String nombre, String primerApellido, String segundoApellido,
-            BigDecimal cedula, String direccionExacta, Integer codigoDistrito) {
+    public ClienteInfoDTO(Integer codigoCliente, String nombre, String primerApellido, String segundoApellido,
+    Integer cedula, String direccionExacta, Integer codigoDistrito) {
         this.codigoCliente = codigoCliente;
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -120,11 +120,11 @@ public class ClienteInfoDTO {
         this.codigoDistrito = codigoDistrito;
     }
 
-    public BigDecimal getCodigoCliente() {
+    public Integer getCodigoCliente() {
         return codigoCliente;
     }
 
-    public void setCodigoCliente(BigDecimal codigoCliente) {
+    public void setCodigoCliente(Integer codigoCliente) {
         this.codigoCliente = codigoCliente;
     }
 
@@ -152,11 +152,11 @@ public class ClienteInfoDTO {
         this.segundoApellido = segundoApellido;
     }
 
-    public BigDecimal getCedula() {
+    public Integer getCedula() {
         return cedula;
     }
 
-    public void setCedula(BigDecimal cedula) {
+    public void setCedula(Integer cedula) {
         this.cedula = cedula;
     }
 

@@ -52,13 +52,25 @@ public enum Message {
     EXCHANGE_RATE_CREATE_SUCCESS("Tipo cambio creado satisfactoriamente."),
     EXCHANGE_RATE_UPDATE_SUCCESS("Tipo cambio actualizado satisfactoriamente."),
     EXCHANGE_RATE_DELETE_SUCCESS("Tipo cambio eliminado satisfactoriamente."),
-
+    
     EXCHANGE_RATE_SUCCESS("Muy bien tipo cambio procesado correctamente."),
     EXCHANGE_RATE_NULL_VARIABLE("Error informacion incompleta, llene todos los datos solicitados del tipo cambio."),
     EXCHANGE_RATE_EMPTY_VARIABLE("Error informacion incompleta, llene todos los datos solicitados del tipo cambio."),
     EXCHANGE_RATE_TABLE_CODE_EXISTS("Error al procesar la informacion, tipo cambio existente."),
     EXCHANGE_RATE_FOREIGN_KEY_NOT_EXIST("Error, verifique los campos moneda y banco"),
     EXCHANGE_RATE_PRIMARY_KEY_NOT_EXIST("Error, tipo cambio no existe."),
+    // * ========================= TELEFONO ==============================
+    PHONE_CREATE_SUCCESS("Telefono creado satisfactoriamente."),
+    PHONE_UPDATE_SUCCESS("Telefono actualizado satisfactoriamente."),
+    PHONE_DELETE_SUCCESS("Telefono eliminado satisfactoriamente."),
+    
+    PHONE_SUCCESS("Muy bien telefono procesado correctamente."),
+    PHONE_NULL_VARIABLE("Error informacion incompleta, llene todos los datos solicitados del telefono."),
+    PHONE_EMPTY_VARIABLE("Error informacion incompleta, llene todos los datos solicitados del telefono."),
+    PHONE_TABLE_CODE_EXISTS("Error al procesar la informacion, telefono existente."),
+    PHONE_FOREIGN_KEY_NOT_EXIST("Error, verifique los campos cliente o banco"),
+    PHONE_PRIMARY_KEY_NOT_EXIST("Error, telefono no existente."),
+
 
     // * EXCEPTIONS
     I_LLEGAL_ACCESS_EXCEPTION(

@@ -2,21 +2,26 @@ package com.justin.banco.models;
 
 public class Telefono {
 
-    private final int codigoTelefono;
-    private final String numero; 
+    private Integer codigoTelefono;
+    private String numero;
 
-    public Telefono(int codigoTelefono, String numero ) {
-        this.codigoTelefono = codigoTelefono;
-        this.numero = numero; 
+    public Telefono() {
     }
 
-    public int getCodigoTelefono() {
+    public Integer getCodigoTelefono() {
         return codigoTelefono;
+    }
+
+    public void setCodigoTelefono(Integer codigoTelefono) {
+        this.codigoTelefono = codigoTelefono;
     }
 
     public String getNumero() {
         return numero;
     }
- 
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
 
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -55,7 +56,18 @@ public class MonedaController {
     }
 
     @GetMapping("")
-    public Result<List<Moneda>> getCurrenciesAsJson(@RequestBody @Valid MonedaPaginationDTO pagination) {
+    public Result<List<Moneda>> getCurrenciesAsJson(
+            @RequestParam(required = false) Integer offset,
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) String codigoMoneda,
+            @RequestParam(required = false) String nombre) {
+
+        var pagination = new MonedaPaginationDTO(
+                offset != null ? offset : 0,
+                limit != null ? limit : 300, // valor por defecto
+                codigoMoneda,
+                nombre);
+
         return this.monedaService.getBanksInJson(pagination);
     }
 

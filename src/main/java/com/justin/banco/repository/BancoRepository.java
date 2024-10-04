@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
- 
+
 import com.justin.banco.dto.banco.BancoCreateDTO;
 import com.justin.banco.dto.banco.BancoInfoDTO;
-import com.justin.banco.dto.banco.BancoUpdateDTO; 
+import com.justin.banco.dto.banco.BancoUpdateDTO;
 import com.justin.banco.dto.banco.BancoPaginationDTO;
 import com.justin.banco.helpers.Result;
 import com.justin.banco.models.Banco;
+import com.justin.banco.models.Telefono;
 import com.justin.banco.service.MessageManager;
 import com.justin.banco.service.QueryManager;
 
@@ -83,4 +84,13 @@ public class BancoRepository
                 message, queryManager.resultCode);
 
     }
+
+    public Result<List<Telefono>> getPhonesByCodeBank(String codigoBanco) {
+
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("SP_G_PhonesByCodeBank");// ,Banco.class
+        List<Telefono> telefonos = queryManager.executeProcedureAndReturnASJson2(query, codigoBanco, Telefono.class);
+        var message = messageManager.getMessageByCode(queryManager.resultCode, Telefono.class);
+        return Result.get(telefonos, message, queryManager.resultCode);
+    }
+
 }
