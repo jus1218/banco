@@ -11,6 +11,13 @@ public class Result<T> {
     private final String message;
     private final boolean isSuccess;
 
+    public Result() {
+
+        value = null;
+        message = "";
+        isSuccess = false;
+    }
+
     public Result(T value, Message message, boolean isSuccess) {
         this.value = value;
         this.message = message.getMessage();
@@ -53,6 +60,5 @@ public class Result<T> {
     public boolean isSuccess() {
         return this.isSuccess;
     }
-
 
 }

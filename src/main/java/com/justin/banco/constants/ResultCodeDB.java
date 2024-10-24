@@ -18,6 +18,11 @@ public class ResultCodeDB {
     public static final int CREATE = 10;
     public static final int DELETE = 11;
     public static final int UPDATED = 12;
+    public static final int NO_DELETE = 13;
+
+    public static final int ERROR_TYPE = 20;
+
+    public static final int TYPE_PROVINCE = 0;
 
     public static boolean isSuccessResultCode(int resultCode) {
 

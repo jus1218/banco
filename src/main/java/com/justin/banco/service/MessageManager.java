@@ -9,9 +9,12 @@ import com.justin.banco.constants.Message;
 import com.justin.banco.constants.ResultCodeDB;
 import com.justin.banco.dto.cliente.ClienteInfoDTO;
 import com.justin.banco.models.Banco;
+import com.justin.banco.models.CuentaCliente;
+import com.justin.banco.models.CuentaContable;
 import com.justin.banco.models.Moneda;
 import com.justin.banco.models.Telefono;
 import com.justin.banco.models.TipoCambio;
+import com.justin.banco.models.Ubicacion;
 
 @Service
 public class MessageManager {
@@ -26,6 +29,9 @@ public class MessageManager {
     private static final Map<Integer, Message> currencyMessages = new HashMap<Integer, Message>();
     private static final Map<Integer, Message> exchangeRateMessages = new HashMap<Integer, Message>();
     private static final Map<Integer, Message> phoneMessages = new HashMap<Integer, Message>();
+    private static final Map<Integer, Message> clientAccountMessages = new HashMap<Integer, Message>();
+    private static final Map<Integer, Message> ubicationMessages = new HashMap<Integer, Message>();
+    private static final Map<Integer, Message> cuentaContableMessages = new HashMap<Integer, Message>();
 
     static {
         genericMessages.put(ResultCodeDB.SUCCESS, Message.SUCCESS);
@@ -36,6 +42,7 @@ public class MessageManager {
         genericMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST, Message.PRIMARY_KEY_NOT_EXIST);
         genericMessages.put(ResultCodeDB.SPECIAL_CHARACTER_VALUES, Message.SPECIAL_CHARACTER_VALUES);
         genericMessages.put(ResultCodeDB.VALUE_TOO_LONG, Message.VALUE_TOO_LONG);
+
         // Inicializacion de mensajes para Cliente
 
         clientMessage.put(ResultCodeDB.CREATE, Message.CLIENT_CREATE_SUCCESS);
@@ -50,10 +57,12 @@ public class MessageManager {
         clientMessage.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST, Message.CLIENT_PRIMARY_KEY_NOT_EXIST);
         clientMessage.put(ResultCodeDB.SPECIAL_CHARACTER_VALUES, Message.SPECIAL_CHARACTER_VALUES);
         clientMessage.put(ResultCodeDB.VALUE_TOO_LONG, Message.VALUE_TOO_LONG);
+        clientMessage.put(ResultCodeDB.NO_DELETE, Message.CLIENT_NO_DELETE);
         // Inicializacion de mensajes para Banco
         bankMessages.put(ResultCodeDB.CREATE, Message.BANK_CREATE_SUCCESS);
         bankMessages.put(ResultCodeDB.UPDATED, Message.BANK_UPDATE_SUCCESS);
         bankMessages.put(ResultCodeDB.DELETE, Message.BANK_DELETE_SUCCESS);
+        bankMessages.put(ResultCodeDB.NO_DELETE, Message.BANK_NO_DELETE);
 
         bankMessages.put(ResultCodeDB.SUCCESS, Message.BANK_SUCCESS);
         bankMessages.put(ResultCodeDB.NULL_VARIABLE, Message.BANK_NULL_VARIABLE);
@@ -68,6 +77,7 @@ public class MessageManager {
         currencyMessages.put(ResultCodeDB.CREATE, Message.CURRENCY_CREATE_SUCCESS);
         currencyMessages.put(ResultCodeDB.UPDATED, Message.CURRENCY_UPDATE_SUCCESS);
         currencyMessages.put(ResultCodeDB.DELETE, Message.CURRENCY_DELETE_SUCCESS);
+        currencyMessages.put(ResultCodeDB.NO_DELETE, Message.CURRENCY_NO_DELETE);
 
         currencyMessages.put(ResultCodeDB.SUCCESS, Message.CURRENCY_SUCCESS);
         currencyMessages.put(ResultCodeDB.NULL_VARIABLE, Message.CURRENCY_NULL_VARIABLE);
@@ -102,6 +112,48 @@ public class MessageManager {
         phoneMessages.put(ResultCodeDB.SPECIAL_CHARACTER_VALUES, Message.SPECIAL_CHARACTER_VALUES);
         phoneMessages.put(ResultCodeDB.VALUE_TOO_LONG, Message.VALUE_TOO_LONG);
         phoneMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST, Message.PHONE_PRIMARY_KEY_NOT_EXIST);
+        // ===========================CUENTA CLIENTE==================================
+        clientAccountMessages.put(ResultCodeDB.CREATE, Message.CLIENT_ACCOUNT_CREATE_SUCCESS);
+        clientAccountMessages.put(ResultCodeDB.UPDATED, Message.CLIENT_ACCOUNT_UPDATE_SUCCESS);
+        clientAccountMessages.put(ResultCodeDB.DELETE, Message.CLIENT_ACCOUNT_DELETE_SUCCESS);
+        clientAccountMessages.put(ResultCodeDB.NO_DELETE, Message.CLIENT_ACCOUNT_NO_DELETE);
+
+        clientAccountMessages.put(ResultCodeDB.SUCCESS, Message.CLIENT_ACCOUNT_SUCCESS);
+        clientAccountMessages.put(ResultCodeDB.NULL_VARIABLE, Message.CLIENT_ACCOUNT_NULL_VARIABLE);
+        clientAccountMessages.put(ResultCodeDB.EMPTY_VARIABLE, Message.CLIENT_ACCOUNT_EMPTY_VARIABLE);
+        clientAccountMessages.put(ResultCodeDB.TABLE_CODE_EXISTS, Message.CLIENT_ACCOUNT_TABLE_CODE_EXISTS);
+        clientAccountMessages.put(ResultCodeDB.FOREIGN_KEY_NOT_EXIST, Message.CLIENT_ACCOUNT_FOREIGN_KEY_NOT_EXIST);
+        clientAccountMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST, Message.CLIENT_ACCOUNT_PRIMARY_KEY_NOT_EXIST);
+        clientAccountMessages.put(ResultCodeDB.SPECIAL_CHARACTER_VALUES, Message.SPECIAL_CHARACTER_VALUES);
+        clientAccountMessages.put(ResultCodeDB.VALUE_TOO_LONG, Message.VALUE_TOO_LONG);
+        // ===========================UBICACION==================================
+        ubicationMessages.put(ResultCodeDB.CREATE, Message.UBICATION_CREATE_SUCCESS);
+        ubicationMessages.put(ResultCodeDB.UPDATED, Message.UBICATION_UPDATE_SUCCESS);
+        ubicationMessages.put(ResultCodeDB.DELETE, Message.UBICATION_DELETE_SUCCESS);
+
+        ubicationMessages.put(ResultCodeDB.SUCCESS, Message.UBICATION_SUCCESS);
+        ubicationMessages.put(ResultCodeDB.NULL_VARIABLE, Message.UBICATION_NULL_VARIABLE);
+        ubicationMessages.put(ResultCodeDB.EMPTY_VARIABLE, Message.UBICATION_EMPTY_VARIABLE);
+        ubicationMessages.put(ResultCodeDB.TABLE_CODE_EXISTS, Message.UBICATION_TABLE_CODE_EXISTS);
+        ubicationMessages.put(ResultCodeDB.FOREIGN_KEY_NOT_EXIST, Message.UBICATION_FOREIGN_KEY_NOT_EXIST);
+        ubicationMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST, Message.UBICATION_PRIMARY_KEY_NOT_EXIST);
+        ubicationMessages.put(ResultCodeDB.SPECIAL_CHARACTER_VALUES, Message.SPECIAL_CHARACTER_VALUES);
+        ubicationMessages.put(ResultCodeDB.VALUE_TOO_LONG, Message.VALUE_TOO_LONG);
+        ubicationMessages.put(ResultCodeDB.NO_DELETE, Message.UBICATION_NO_DELETE);
+        // ===========================CUENTA_CONTABLE==================================
+        cuentaContableMessages.put(ResultCodeDB.CREATE, Message.CUENTA_CONTABLE_CREATE_SUCCESS);
+        cuentaContableMessages.put(ResultCodeDB.UPDATED, Message.CUENTA_CONTABLE_UPDATE_SUCCESS);
+        cuentaContableMessages.put(ResultCodeDB.DELETE, Message.CUENTA_CONTABLE_DELETE_SUCCESS);
+        cuentaContableMessages.put(ResultCodeDB.NO_DELETE, Message.CUENTA_CONTABLE_NO_DELETE);
+
+        cuentaContableMessages.put(ResultCodeDB.SUCCESS, Message.CUENTA_CONTABLE_SUCCESS);
+        cuentaContableMessages.put(ResultCodeDB.NULL_VARIABLE, Message.CUENTA_CONTABLE_NULL_VARIABLE);
+        cuentaContableMessages.put(ResultCodeDB.EMPTY_VARIABLE, Message.CUENTA_CONTABLE_EMPTY_VARIABLE);
+        cuentaContableMessages.put(ResultCodeDB.TABLE_CODE_EXISTS, Message.CUENTA_CONTABLE_TABLE_CODE_EXISTS);
+        cuentaContableMessages.put(ResultCodeDB.FOREIGN_KEY_NOT_EXIST, Message.CUENTA_CONTABLE_FOREIGN_KEY_NOT_EXIST);
+        cuentaContableMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST, Message.CUENTA_CONTABLE_PRIMARY_KEY_NOT_EXIST);
+        cuentaContableMessages.put(ResultCodeDB.SPECIAL_CHARACTER_VALUES, Message.SPECIAL_CHARACTER_VALUES);
+        cuentaContableMessages.put(ResultCodeDB.VALUE_TOO_LONG, Message.VALUE_TOO_LONG);
 
         // phoneMessages.put(ResultCodeDB.SUCCESS, Message.SUCCESS);
         // phoneMessages.put(ResultCodeDB.PRIMARY_KEY_NOT_EXIST,
@@ -124,6 +176,9 @@ public class MessageManager {
         typeMessageMap.put(Moneda.class, currencyMessages);
         typeMessageMap.put(TipoCambio.class, exchangeRateMessages);
         typeMessageMap.put(Telefono.class, phoneMessages);
+        typeMessageMap.put(CuentaCliente.class, clientAccountMessages);
+        typeMessageMap.put(Ubicacion.class, ubicationMessages);
+        typeMessageMap.put(CuentaContable.class, cuentaContableMessages);
     }
 
     public <T> Message getMessageByCode(int resultCode, Class<T> type) {

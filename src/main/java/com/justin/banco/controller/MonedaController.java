@@ -68,7 +68,7 @@ public class MonedaController {
                 codigoMoneda,
                 nombre);
 
-        return this.monedaService.getBanksInJson(pagination);
+        return this.monedaService.getList(pagination);
     }
 
 }

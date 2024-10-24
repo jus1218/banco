@@ -33,8 +33,8 @@ public class TipoCambioService implements
     }
 
     @Override
-    public Result<List<TipoCambio>> getBanksInJson(TipoCambioPaginationDTO entity) {
-        return this.tipoCambioRepository.getBanksInJson(entity);
+    public Result<List<TipoCambio>> getList(TipoCambioPaginationDTO entity) {
+        return this.tipoCambioRepository.getList(entity);
     }
 
     @Override

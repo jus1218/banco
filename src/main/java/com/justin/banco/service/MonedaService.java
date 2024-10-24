@@ -35,8 +35,8 @@ public class MonedaService
     }
 
     @Override
-    public Result<List<Moneda>> getBanksInJson(MonedaPaginationDTO entity) {
-        return this.monedaRepository.getBanksInJson(entity);
+    public Result<List<Moneda>> getList(MonedaPaginationDTO entity) {
+        return this.monedaRepository.getList(entity);
     }
 
     @Override

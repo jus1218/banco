@@ -29,9 +29,9 @@ public class BancoService
         return this.bancoRepository.delete(banco);
     }
 
-    public Result<List<Banco>> getBanksInJson(BancoPaginationDTO pagination) {
+    public Result<List<Banco>> getList(BancoPaginationDTO pagination) {
 
-        return this.bancoRepository.getBanksInJson(pagination);
+        return this.bancoRepository.getList(pagination);
     }
 
     @Override

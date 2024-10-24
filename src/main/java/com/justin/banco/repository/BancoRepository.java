@@ -43,7 +43,7 @@ public class BancoRepository
     }
 
     @Override
-    public Result<List<Banco>> getBanksInJson(BancoPaginationDTO pagination) {
+    public Result<List<Banco>> getList(BancoPaginationDTO pagination) {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("SP_G_BanksInJson");// ,Banco.class
         List<Banco> bancos = queryManager.executeProcedureAndReturnASJson(query, pagination, Banco.class);
         var message = messageManager.getMessageByCode(queryManager.resultCode, Banco.class);
@@ -63,7 +63,7 @@ public class BancoRepository
 
     @Override
     public Result<String> delete(String codigoBanco) {
-        var query = entityManager.createStoredProcedureQuery("SP_D_BankByCode");
+        var query = entityManager.createStoredProcedureQuery("SP_D_Bank");
         queryManager.executeDeleteProcedure(codigoBanco, query);
         var message = messageManager.getMessageByCode(queryManager.resultCode, Banco.class);
         return Result.get(null, message, queryManager.resultCode);

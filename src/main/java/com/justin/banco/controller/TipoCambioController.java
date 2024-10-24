@@ -4,9 +4,6 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.justin.banco.dto.banco.BancoInfoDTO;
-import com.justin.banco.dto.banco.BancoUpdateDTO;
 import com.justin.banco.dto.tipocambio.TipoCambioCreateDTO;
 import com.justin.banco.dto.tipocambio.TipoCambioDeleteAndUpdateDTO;
 import com.justin.banco.dto.tipocambio.TipoCambioInfoDTO;
@@ -22,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -41,7 +37,7 @@ public class TipoCambioController {
             @RequestParam(required = false) String codigoBanco) {
 
         var tipoCambioPaginacion = new TipoCambioPaginationDTO(offset, limit, codigoMoneda, fecha, codigoBanco);
-        return this.tipoCambioService.getBanksInJson(tipoCambioPaginacion);
+        return this.tipoCambioService.getList(tipoCambioPaginacion);
     }
 
     @PostMapping("/create")

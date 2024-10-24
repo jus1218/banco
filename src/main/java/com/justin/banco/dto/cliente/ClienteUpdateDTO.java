@@ -2,6 +2,7 @@ package com.justin.banco.dto.cliente;
  
 import jakarta.validation.constraints.Size;
 
+
 public record ClienteUpdateDTO(
         Integer codigoCliente,
         @Size(min = 1, message = "El campo no puede estar vacío") String nombre,

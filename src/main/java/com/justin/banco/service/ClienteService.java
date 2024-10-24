@@ -36,8 +36,8 @@ public class ClienteService
     }
 
     @Override
-    public  Result<List<Cliente>>  getBanksInJson(ClientPaginationDTO clientePaginacion) {
-        return this.clienteRepository.getBanksInJson(clientePaginacion);
+    public  Result<List<Cliente>>  getList(ClientPaginationDTO clientePaginacion) {
+        return this.clienteRepository.getList(clientePaginacion);
     }
 
     @Override

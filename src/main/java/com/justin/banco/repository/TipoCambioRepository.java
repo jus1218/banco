@@ -63,7 +63,7 @@ public class TipoCambioRepository implements
     }
 
     @Override
-    public Result<List<TipoCambio>> getBanksInJson(TipoCambioPaginationDTO entity) {
+    public Result<List<TipoCambio>> getList(TipoCambioPaginationDTO entity) {
         var query = entityManager.createStoredProcedureQuery("SP_G_ExchangeRatesInJson");
         List<TipoCambio> monedas = queryManager.<TipoCambio>executeProcedureAndReturnASJson(query, entity,
                 TipoCambio.class);

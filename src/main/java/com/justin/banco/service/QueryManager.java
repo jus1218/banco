@@ -83,18 +83,21 @@ public class QueryManager {
     private void registerParameters(StoredProcedureQuery query, Field[] fields, Object instance, Boolean hasResultCode)
             throws IllegalArgumentException, IllegalAccessException {
 
-        int i = 1;
-        for (var field : fields) {
+        int i = 0;
+        if (fields != null) {
+            i = 1;
+            for (var field : fields) {
 
-            field.setAccessible(true);// permitimos el acceso a los campos
-            Class<?> fieldType = field.getType();
+                field.setAccessible(true);// permitimos el acceso a los campos
+                Class<?> fieldType = field.getType();
 
-            Object valor = field.get(instance);
+                Object valor = field.get(instance);
 
-            query.registerStoredProcedureParameter(i, fieldType, ParameterMode.IN);
-            query.setParameter(i, valor);
-            i++;
+                query.registerStoredProcedureParameter(i, fieldType, ParameterMode.IN);
+                query.setParameter(i, valor);
+                i++;
 
+            }
         }
 
         positionResultCode = i;
@@ -105,6 +108,9 @@ public class QueryManager {
     }
 
     public Field[] getInstanceAttributeArray(Object instance) {
+
+        if (instance == null)
+            return null;
         Class<?> clazz = instance.getClass();
         // Obtener todos los campos de la clase (incluyendo los privados)
         return clazz.getDeclaredFields();
@@ -189,8 +195,10 @@ public class QueryManager {
             registerParameter(query, id);
 
             boolean hasResults = query.execute();
+            resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
             if (!hasResults)
                 return null;
+                // return new ArrayList<T>();
 
             var results = query.getResultList();
 
@@ -222,9 +230,6 @@ public class QueryManager {
         return null;
     }
 
-
-
-    
     public <T, N> List<T> executeProcedureAndReturnASJson(StoredProcedureQuery query, Class<T> clazz) {
         try {
             // var fields = getInstanceAttributeArray(instance);
@@ -232,7 +237,7 @@ public class QueryManager {
 
             // registerParameters(query, fields, instance, true);
             // registerParameter(query, id);
-            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
+            query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.OUT);
 
             boolean hasResults = query.execute();
             if (!hasResults)
@@ -245,7 +250,7 @@ public class QueryManager {
             }
 
             // var jsonResult = results.get(0).toString();
-            resultCode = (Integer) query.getOutputParameterValue(positionResultCode);
+            resultCode = (Integer) query.getOutputParameterValue(1);
 
             for (int i = 0; i < results.size(); i++) {
                 var jsonResult = results.get(i).toString();

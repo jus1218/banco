@@ -6,8 +6,6 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.justin.banco.dto.cliente.ClientPaginationDTO;
 import com.justin.banco.dto.cliente.ClienteCreateDTO;
 import com.justin.banco.dto.cliente.ClienteInfoDTO;
@@ -42,7 +40,7 @@ public class ClienteController {
             @RequestParam(required = false) String nombre) {
 
         var param = new ClientPaginationDTO(offset, limit, nombre, null, null);
-        return this.clienteService.getBanksInJson(param);
+        return this.clienteService.getList(param);
     }
 
     @GetMapping("/{id}")

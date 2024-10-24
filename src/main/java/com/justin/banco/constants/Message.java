@@ -19,7 +19,8 @@ public enum Message {
     BANK_CREATE_SUCCESS("Banco creado satisfactoriamente."),
     BANK_UPDATE_SUCCESS("Banco actualizado satisfactoriamente."),
     BANK_DELETE_SUCCESS("Banco eliminado satisfactoriamente."),
-
+    BANK_NO_DELETE("Error, Banco ya se encuentra asociado a otros registros"),
+    
     BANK_SUCCESS("Muy bien acción al banco procesada correctamente."),
     BANK_NULL_VARIABLE("Error informacion incompleta, llene todos los datos solicitados del banco."),
     BANK_EMPTY_VARIABLE("Error informacion incompleta, llene todos los datos solicitados del banco."),
@@ -30,19 +31,22 @@ public enum Message {
     CLIENT_CREATE_SUCCESS("Cliente creado satisfactoriamente."),
     CLIENT_UPDATE_SUCCESS("Cliente actualizado satisfactoriamente."),
     CLIENT_DELETE_SUCCESS("Cliente eliminado satisfactoriamente."),
-
+    
+    CLIENT_NO_DELETE("Error, Cliente ya se encuentra asociado a otros registros"),
+    
     CLIENT_SUCCESS("Muy bien acción al cliente procesada correctamente."),
     CLIENT_NULL_VARIABLE("Error informacion incompleta, llene todos los datos solicitados del cliente."),
     CLIENT_EMPTY_VARIABLE("Error informacion incompleta, llene todos los datos solicitados del cliente."),
     CLIENT_TABLE_CODE_EXISTS("Error al procesar la informacion, codigo cliente existente."),
     CLIENT_FOREIGN_KEY_NOT_EXIST("Error, verifique los campos distrito y moneda"),
     CLIENT_PRIMARY_KEY_NOT_EXIST("Error, codigo cliente no existe."),
-    // * ========================= CLIENTE ==============================
-
+    // * ========================= MONEDA ==============================
+    
     CURRENCY_CREATE_SUCCESS("Moneda creada satisfactoriamente."),
     CURRENCY_UPDATE_SUCCESS("Moneda actualizada satisfactoriamente."),
     CURRENCY_DELETE_SUCCESS("Moneda eliminada satisfactoriamente."),
-
+    CURRENCY_NO_DELETE("Error, Moneda ya se encuentra asociado a otros registros"),
+    
     CURRENCY_SUCCESS("Muy bien moneda procesada correctamente."),
     CURRENCY_NULL_VARIABLE("Error informacion incompleta, llene todos los datos solicitados de la moneda."),
     CURRENCY_EMPTY_VARIABLE("Error informacion incompleta, llene todos los datos solicitados de la moneda."),
@@ -70,7 +74,47 @@ public enum Message {
     PHONE_TABLE_CODE_EXISTS("Error al procesar la informacion, telefono existente."),
     PHONE_FOREIGN_KEY_NOT_EXIST("Error, verifique los campos cliente o banco"),
     PHONE_PRIMARY_KEY_NOT_EXIST("Error, telefono no existente."),
+    // * ========================= CUENTA CLIENTE ==============================
+    CLIENT_ACCOUNT_CREATE_SUCCESS("Cuenta cliente creada satisfactoriamente."),
+    CLIENT_ACCOUNT_UPDATE_SUCCESS("Cuenta cliente actualizada satisfactoriamente."),
+    CLIENT_ACCOUNT_DELETE_SUCCESS("Cuenta cliente eliminada satisfactoriamente."),
+    CLIENT_ACCOUNT_NO_DELETE("Error, Cuenta cliente ya se encuentra asociado a otros registros"),
+    
+    CLIENT_ACCOUNT_SUCCESS("Muy bien cuenta cliente procesada correctamente."),
+    CLIENT_ACCOUNT_NULL_VARIABLE(
+            "Error informacion incompleta, llene todos los datos solicitados de la cuenta cliente."),
+    CLIENT_ACCOUNT_EMPTY_VARIABLE(
+            "Error informacion incompleta, llene todos los datos solicitados de la cuenta cliente."),
+    CLIENT_ACCOUNT_TABLE_CODE_EXISTS("Error al procesar la informacion, cuenta cliente existente."),
+    CLIENT_ACCOUNT_FOREIGN_KEY_NOT_EXIST(
+            "Error, verifique los campos banco, moneda, tipo de cuenta cliente o cuenta contable"),
+    CLIENT_ACCOUNT_PRIMARY_KEY_NOT_EXIST("Error, cuenta cliente no existente."),
+    // * ========================= UBICACION ==============================
+    UBICATION_CREATE_SUCCESS("Ubicación creada satisfactoriamente."),
+    UBICATION_UPDATE_SUCCESS("Ubicación actualizada satisfactoriamente."),
+    UBICATION_DELETE_SUCCESS("Ubicación eliminada satisfactoriamente."),
 
+    UBICATION_SUCCESS("Muy bien Ubicación procesada correctamente."),
+    UBICATION_NULL_VARIABLE("Error informacion incompleta, llene todos los datos solicitados de la Ubicación."),
+    UBICATION_EMPTY_VARIABLE("Error informacion incompleta, llene todos los datos solicitados de la Ubicación."),
+    UBICATION_TABLE_CODE_EXISTS("Error al procesar la informacion, Ubicación existente."),
+    UBICATION_FOREIGN_KEY_NOT_EXIST("Error, verifique los campos realción"),
+    UBICATION_PRIMARY_KEY_NOT_EXIST("Error, Ubicación no existente."),
+    UBICATION_ERROR_TYPE("Error, valor de tipo erroneo"),
+    UBICATION_NO_DELETE("Error, Ubicación ya se encuentra asociada a otros registros"),
+    // * ========================= UBICACION ==============================
+    CUENTA_CONTABLE_CREATE_SUCCESS("Cuenta Contable creada satisfactoriamente."),
+    CUENTA_CONTABLE_UPDATE_SUCCESS("Cuenta Contable actualizada satisfactoriamente."),
+    CUENTA_CONTABLE_DELETE_SUCCESS("Cuenta Contable eliminada satisfactoriamente."),
+
+    CUENTA_CONTABLE_SUCCESS("Muy bien Cuenta Contable procesada correctamente."),
+    CUENTA_CONTABLE_NULL_VARIABLE("Error informacion incompleta, llene todos los datos solicitados de la Cuenta Contable."),
+    CUENTA_CONTABLE_EMPTY_VARIABLE("Error informacion incompleta, llene todos los datos solicitados de la Cuenta Contable."),
+    CUENTA_CONTABLE_TABLE_CODE_EXISTS("Error al procesar la informacion, Cuenta Contable existente."),
+    CUENTA_CONTABLE_FOREIGN_KEY_NOT_EXIST("Error, verifique los campos realción"),
+    CUENTA_CONTABLE_PRIMARY_KEY_NOT_EXIST("Error, Cuenta Contable no existente."),
+    CUENTA_CONTABLE_ERROR_TYPE("Error, valor de tipo erroneo"),
+    CUENTA_CONTABLE_NO_DELETE("Error, Cuenta Contable ya se encuentra asociada a otros registros"),
 
     // * EXCEPTIONS
     I_LLEGAL_ACCESS_EXCEPTION(

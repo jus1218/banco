@@ -9,13 +9,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import com.justin.banco.dto.banco.BancoCreateDTO;
 import com.justin.banco.dto.banco.BancoInfoDTO;
-import com.justin.banco.dto.banco.BancoUpdateDTO; 
+import com.justin.banco.dto.banco.BancoUpdateDTO;
 import com.justin.banco.dto.banco.BancoPaginationDTO;
 import com.justin.banco.helpers.Result;
 import com.justin.banco.models.Banco;
-import com.justin.banco.models.Telefono; 
+import com.justin.banco.models.Telefono;
 import com.justin.banco.service.BancoService;
-import com.justin.banco.service.TelefonoService;
 
 import jakarta.validation.Valid;
 
@@ -36,7 +35,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class BancoController {
 
     private @Autowired BancoService bancoService;
-    private @Autowired TelefonoService telefonoService;
 
     // http://localhost:8080/bancos
     // @GetMapping("")
@@ -56,7 +54,7 @@ public class BancoController {
                 nombre,
                 distrito);
 
-        return this.bancoService.getBanksInJson(pagination);
+        return this.bancoService.getList(pagination);
     }
 
     // @GetMapping("")
@@ -89,15 +87,19 @@ public class BancoController {
         return this.bancoService.update(banco.copyWith(id));
     }
 
-    @DeleteMapping("/{id}")
-    public Result<String> deleteBankById(@PathVariable String id) {
-        return this.bancoService.delete(id);
-    }
+    // @DeleteMapping("/{id}")
+    // public Result<String> deleteBankById(@PathVariable String id) {
+    //     return this.bancoService.delete(id);
+    // }
 
     @GetMapping("/phones/{id}")
     public Result<List<Telefono>> getPhonesByCodeBank(@PathVariable("id") String id) {
         return this.bancoService.getPhonesByCodeBank(id);
     }
 
- 
+    @DeleteMapping("/{id}")
+    public Result<String> deleteById(@PathVariable("id") String id) {
+        return this.bancoService.delete(id);
+    }
+
 }

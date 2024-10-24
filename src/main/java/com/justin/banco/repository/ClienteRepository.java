@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
  
 import com.justin.banco.dto.cliente.*;
 import com.justin.banco.helpers.Result;
+import com.justin.banco.models.Banco;
 import com.justin.banco.models.Cliente; 
 import com.justin.banco.service.MessageManager;
 import com.justin.banco.service.QueryManager;
@@ -58,7 +59,7 @@ public class ClienteRepository
     }
 
     @Override
-    public Result<List<Cliente>> getBanksInJson(ClientPaginationDTO clientePaginacioDTO) {
+    public Result<List<Cliente>> getList(ClientPaginationDTO clientePaginacioDTO) {
 
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("SP_G_ClientInJson");
         List<Cliente> clientes = queryManager.<Cliente>executeProcedureAndReturnASJson(query, clientePaginacioDTO,
