@@ -79,6 +79,7 @@ public enum Message {
     CLIENT_ACCOUNT_UPDATE_SUCCESS("Cuenta cliente actualizada satisfactoriamente."),
     CLIENT_ACCOUNT_DELETE_SUCCESS("Cuenta cliente eliminada satisfactoriamente."),
     CLIENT_ACCOUNT_NO_DELETE("Error, Cuenta cliente ya se encuentra asociado a otros registros"),
+    CLIENT_ACCOUNT_ERROR_CODE_TYPE("Error, Cuenta cliente solo se puede asociar a una cuenta contable de tipo pasivo"),
     
     CLIENT_ACCOUNT_SUCCESS("Muy bien cuenta cliente procesada correctamente."),
     CLIENT_ACCOUNT_NULL_VARIABLE(

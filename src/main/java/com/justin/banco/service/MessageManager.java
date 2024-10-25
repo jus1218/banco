@@ -117,6 +117,7 @@ public class MessageManager {
         clientAccountMessages.put(ResultCodeDB.UPDATED, Message.CLIENT_ACCOUNT_UPDATE_SUCCESS);
         clientAccountMessages.put(ResultCodeDB.DELETE, Message.CLIENT_ACCOUNT_DELETE_SUCCESS);
         clientAccountMessages.put(ResultCodeDB.NO_DELETE, Message.CLIENT_ACCOUNT_NO_DELETE);
+        clientAccountMessages.put(ResultCodeDB.ERROR_TYPE_CODE, Message.CLIENT_ACCOUNT_ERROR_CODE_TYPE);
 
         clientAccountMessages.put(ResultCodeDB.SUCCESS, Message.CLIENT_ACCOUNT_SUCCESS);
         clientAccountMessages.put(ResultCodeDB.NULL_VARIABLE, Message.CLIENT_ACCOUNT_NULL_VARIABLE);
